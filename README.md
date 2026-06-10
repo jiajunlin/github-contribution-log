@@ -1,8 +1,8 @@
 # Contribution [#]: Add Storybook Stories for Four Chat Surface Components
 
 **Contribution Number:** 1
-**Student:** [Your Name]
-**Issue:** [GitHub issue link]
+**Student:** [Jiajun Lin]
+**Issue:** [https://github.com/shep-ai/shep/issues/652]
 **Status:** Phase I — In Progress
 
 ---
