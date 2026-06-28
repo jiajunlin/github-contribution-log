@@ -1,10 +1,12 @@
-# Contribution [#]: Add Storybook Stories for Four Chat Surface Components
+# Contribution [4]: Add Storybook Stories for Four Chat Surface Components
 
 **Contribution Number:** 1
 **Student:** [Jiajun Lin]
 **Issue:** [https://github.com/shep-ai/shep/issues/652]
-**Status:** Phase III — In Progress
-
+**Status:** Phase IV — In Progress
+ 
+---
+ 
 ## Why I Chose This Issue
  
 This issue is a good entry point into a real production codebase without requiring any changes to existing component logic. Since it's purely additive — writing `.stories.tsx` files only — it's low-risk and well-scoped, which means I can focus on understanding the codebase structure and conventions rather than debugging unfamiliar behavior. It also has a clear acceptance criteria list, so I'll know exactly when I'm done.
@@ -148,14 +150,22 @@ Using UMPIRE framework (adapted):
  
 ## Pull Request
  
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** [Add GitHub PR URL after opening]
  
-**PR Description:** [To be drafted — will adapt content from this document]
+**PR Description:**
+ 
+*What does this PR do?* Adds colocated `.stories.tsx` files for four chat-surface components — `ChatComposer`, `TurnGroupCard`, `ToolChip`, and `GenericToolBubble` — that had none. No component logic was changed; this is purely additive visual-regression coverage.
+ 
+*Why was this PR needed?* These four Layer 3 chat primitives were out of compliance with the mandatory `CLAUDE.md` rule that every web UI component must have a colocated story. Without stories, any visual regression in these components is invisible until a user reports it. Closes #[issue number].
+ 
+*Key implementation decision:* `ChatComposer` renders `ComposerPrimitive`/`ThreadPrimitive` from `@assistant-ui/react`, which requires an `AssistantRuntimeProvider` ancestor to mount at all. Rather than inventing a new pattern, I reused the existing minimal mock-runtime wrapper (`useExternalStoreRuntime` + `AssistantRuntimeProvider`) already established in `ChatTab.stories.tsx`.
+ 
+*Note for reviewers:* All four components are pure presentational primitives with no async/fetch logic, so there is no Loading or Error state to author. `CONTRIBUTING.md` lists Default/Loading/Empty/Error as the standard set, but that doesn't apply here — variants instead cover each component's actual prop surface (status, tint, expanded, disabled, attachments). Happy to add states if there's a preferred way to represent these in Storybook controls.
  
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback]
-- [Date]: [How it was addressed]
-**Status:** Awaiting implementation
+- [Date]: [Summary of feedback — fill in after PR is open]
+- [Date]: [How you addressed it]
+**Status:** [Update to: Awaiting review / Iterating / Approved / Merged after submitting]
  
 ---
  
@@ -163,16 +173,17 @@ Using UMPIRE framework (adapted):
  
 ### Technical Skills Gained
  
-[To be filled in after completion]
- 
+- **Reading before writing.** The issue text alone wasn't enough — the `ChatComposer` mock-runtime pattern only became obvious after reading `ChatTab.stories.tsx` and the `@assistant-ui/react` provider requirements from actual component source. Reading two or three existing files in the same area always pays off more than starting from scratch.
+- **Spec discrepancies are normal and worth surfacing.** The issue's acceptance criteria and `CONTRIBUTING.md`'s story requirements didn't fully align (Loading/Empty/Error states on presentational components). The right move was to note it in the PR description rather than silently pick one or the other.
+- **Type-checking in isolation is a real fallback.** Without a full `pnpm install`, I ran an isolated `tsc` against the real component source and real third-party type packages. It caught a real prop-shape issue and gave genuine confidence — not as good as running the actual build, but meaningfully better than nothing.
 ### Challenges Overcome
  
-[To be filled in after completion]
- 
+- `ChatComposer` uses `ComposerPrimitive` from `@assistant-ui/react`, which throws without a runtime provider — it can't be rendered in Storybook like a plain component. Solved by finding and reusing the existing `useExternalStoreRuntime` + `AssistantRuntimeProvider` pattern already in `ChatTab.stories.tsx` rather than guessing at a new solution.
+- No `node_modules` available in my working environment meant `pnpm build:storybook` and `pnpm validate` couldn't run directly. Solved by setting up an isolated TypeScript check with the real relevant packages installed — but this is still a gap that needs closing with a real local run before the PR should be considered fully verified.
 ### What I'd Do Differently Next Time
  
-[To be filled in after completion]
- 
+- Set up the full local dev environment first, before writing any code, so I can run `pnpm build:storybook` incrementally as I go rather than deferring it to the end.
+- Check `CODEOWNERS` and recent merged PRs in the same directory earlier to know who to tag for review — doing that during implementation rather than after submission saves a round trip.
 ---
  
 ## Resources Used
