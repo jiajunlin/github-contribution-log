@@ -1,4 +1,4 @@
-# Contribution [4]: Add Storybook Stories for Four Chat Surface Components
+# Contribution [5]: Add Storybook Stories for Four Chat Surface Components
 
 **Contribution Number:** 1
 **Student:** [Jiajun Lin]
